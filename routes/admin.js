@@ -65,6 +65,12 @@ const adminToken = (req, res, next) => {
 //Add Products
   router.post('/addProducts',adminToken, async (req, res) => {
 
+    var productIdExist = await addProducts.findOne({ productId : req.body.productId  })
+    if (productIdExist) {
+
+        return res.json({ StatusCode: 400, StatusMessage: "Failure", Response: "ProductId Already Exist!!" })
+    }
+
     try {
 
         const product = new addProducts({
